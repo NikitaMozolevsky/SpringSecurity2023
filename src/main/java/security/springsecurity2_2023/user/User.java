@@ -1,6 +1,7 @@
 package security.springsecurity2_2023.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,16 +21,19 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue
     private Long id;
 
-    private String firstName;
+    @Pattern(regexp = "[A-Z]\\w{2,50}, [A-Z]\\w{2,50}", message = "name should be in this format:Name, Lastname")
+    private String username;
 
-    private String lastName;
-
+    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
+    message = "email is incorrect")
     private String email;
 
-    //Spring see it as a reserved name password
+    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W]).{6,20})",
+    message = "password should be correct")//Spring see it as a reserved name password
     private String password;
 
     //its enum

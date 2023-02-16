@@ -17,6 +17,13 @@ public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final String[] availablePages = new String[] {
+            "https://fonts.googleapis.com/css?family=Open+Sans:400,700",
+            "page/registration",
+            "act/registration",
+            "page/unregistered",
+            "act/unregistered",
+    };
 
     @Bean // связывание фильтра со Spring App
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)
@@ -27,7 +34,7 @@ public class SecurityConfiguration {
                 .disable()
                 //filter white list
                 .authorizeHttpRequests()
-                .requestMatchers("")//some patterns, should not be auth
+                .requestMatchers(availablePages)//should not be filtered
                 .permitAll() //patterns
                 .anyRequest()
                 .authenticated()
